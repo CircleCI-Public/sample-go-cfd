@@ -1,10 +1,11 @@
-FROM golang:1.10 AS build
+FROM golang:1.26.10 AS build
 WORKDIR /go/src
+COPY go.mod go.sum ./
 COPY go ./go
 COPY main.go .
 
 ENV CGO_ENABLED=0
-RUN go get -d -v ./...
+RUN go mod download
 
 RUN go build -a -installsuffix cgo -o openapi .
 
